@@ -2,10 +2,16 @@ require 'rails_helper'
 
 RSpec.describe Menu, type: :model do
   it 'is valid with a name and a price' do
+
+    category = Category.create(
+      name: "category"
+    )
+    
     menu = Menu.new(
       name: 'Nasi Uduk',
       price: 15000.0,
-      description: "The best food ever"
+      description: "The best food ever",
+      categories: [category] # categories ==> many to many
     )
 
     expect(menu).to be_valid
@@ -36,16 +42,23 @@ RSpec.describe Menu, type: :model do
   end
 
   it 'is invalid with a duplicate name' do
+
+    category = Category.create(
+      name: "Main course"
+    )
+    
     menu1 = Menu.create(
       name: "Nasi Uduk",
       price: 15000.0,
-      description: "The best food ever"
+      description: "The best food ever",
+      categories: [category]
     )
 
     menu2 = Menu.new(
       name: "Nasi Uduk",
       price: 15000.0,
-      description: "The best food ever"
+      description: "The best food ever",
+      categories: [category]
     )
 
     menu2.valid?
@@ -75,5 +88,28 @@ RSpec.describe Menu, type: :model do
     menu.valid?
 
     expect(menu.errors[:price]).to include("must be greater than or equal to 0.01")
+  end
+
+  it 'is invalid with description length that is more than 150 characters' do
+    menu = Menu.new(
+      name: "Nasi Uduk",
+      description: "Nasi uduk ini terdapat sambel, selain itu nasi uduk ini juga terdapat pete, kerupuk, tempe orek, dan lain-lain. Ini merupakan nasi uduk best seller di dunia",
+      price: 15000.0
+    )
+
+    menu.valid?
+    expect(menu.errors[:description]).to include("150 characters is the maximum allowed")
+  end
+
+  it "is invalid without categories" do
+    menu = Menu.new(
+      name: 'Nasi Uduk',
+      price: 15000.0,
+      description: "The best food ever"
+    )
+
+    menu.valid?
+
+    expect(menu.errors[:categories]).to include("can't be blank")
   end
 end
