@@ -3,6 +3,7 @@ class CreateMenus < ActiveRecord::Migration[7.0]
     create_table :menus do |t|
       t.string :name
       t.float :price
+      t.string :description
 
       t.timestamps
     end

@@ -4,7 +4,8 @@ RSpec.describe Menu, type: :model do
   it 'is valid with a name and a price' do
     menu = Menu.new(
       name: 'Nasi Uduk',
-      price: 15000.0
+      price: 15000.0,
+      description: "The best food ever"
     )
 
     expect(menu).to be_valid
@@ -13,19 +14,20 @@ RSpec.describe Menu, type: :model do
   it 'is invalid without a name' do
     menu = Menu.new(
       name: nil,
-      price: 15000.0
+      price: 15000.0,
+      description: "The best food ever"
     )
 
     menu.valid?
 
     expect(menu.errors[:name]).to include("can't be blank")
   end
-<<<<<<< HEAD
 
   it 'is invalid without a price' do
     menu = Menu.new(
       name: "Nasi Uduk",
-      price: nil
+      price: nil,
+      description: "The best food ever"
     )
     
     menu.valid?
@@ -36,18 +38,18 @@ RSpec.describe Menu, type: :model do
   it 'is invalid with a duplicate name' do
     menu1 = Menu.create(
       name: "Nasi Uduk",
-      price: 15000.0
+      price: 15000.0,
+      description: "The best food ever"
     )
 
     menu2 = Menu.new(
       name: "Nasi Uduk",
-      price: 15000.0
+      price: 15000.0,
+      description: "The best food ever"
     )
 
     menu2.valid?
 
     expect(menu2.errors[:name]).to include("has already been taken")
   end
-=======
->>>>>>> origin/main
 end
