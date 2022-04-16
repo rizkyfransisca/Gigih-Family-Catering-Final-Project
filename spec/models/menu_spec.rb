@@ -52,4 +52,16 @@ RSpec.describe Menu, type: :model do
 
     expect(menu2.errors[:name]).to include("has already been taken")
   end
+
+  it 'is invalid with price less than 0.01' do
+    menu = Menu.new(
+      name: "Nasi Uduk",
+      description: "Just with a different description",
+      price: 0
+    )
+
+    menu.valid?
+
+    expect(menu.errors[:price]).to include("must be greater than or equal to 0.01")
+  end
 end

@@ -6,5 +6,5 @@ class Menu < ApplicationRecord
   has_many :orders, through: :order_details
 
   validates :name, presence: true, uniqueness: true
-  validates :price, presence: true
+  validates :price, presence: true, numericality: {greater_than_or_equal_to: 0.01}
 end
