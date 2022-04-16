@@ -5,6 +5,10 @@ class Menu < ApplicationRecord
   has_many :order_details
   has_many :orders, through: :order_details
 
+<<<<<<< HEAD
   validates :name, presence: true, uniqueness: true
   validates :price, presence: true
+=======
+  validates :name, presence: true
+>>>>>>> origin/main
 end

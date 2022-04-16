@@ -20,6 +20,7 @@ RSpec.describe Menu, type: :model do
 
     expect(menu.errors[:name]).to include("can't be blank")
   end
+<<<<<<< HEAD
 
   it 'is invalid without a price' do
     menu = Menu.new(
@@ -47,4 +48,6 @@ RSpec.describe Menu, type: :model do
 
     expect(menu2.errors[:name]).to include("has already been taken")
   end
+=======
+>>>>>>> origin/main
 end
