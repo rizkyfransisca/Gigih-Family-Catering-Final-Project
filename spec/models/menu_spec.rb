@@ -20,4 +20,15 @@ RSpec.describe Menu, type: :model do
 
     expect(menu.errors[:name]).to include("can't be blank")
   end
+
+  it 'is invalid without a price' do
+    menu = Menu.new(
+      name: "Nasi Uduk",
+      price: nil
+    )
+    
+    menu.valid?
+
+    expect(menu.errors[:price]).to include("can't be blank")
+  end
 end

@@ -6,4 +6,5 @@ class Menu < ApplicationRecord
   has_many :orders, through: :order_details
 
   validates :name, presence: true
+  validates :price, presence: true
 end
