@@ -53,6 +53,18 @@ RSpec.describe Menu, type: :model do
     expect(menu2.errors[:name]).to include("has already been taken")
   end
 
+  it "is invalid with a non numeric values for price" do
+    menu = Menu.new(
+      name: "Nasi Uduk",
+      description: "The best menu ever",
+      price: "hello"
+    )
+
+    menu.valid?
+
+    expect(menu.errors[:price]).to include("is not a number")
+  end
+
   it 'is invalid with price less than 0.01' do
     menu = Menu.new(
       name: "Nasi Uduk",
