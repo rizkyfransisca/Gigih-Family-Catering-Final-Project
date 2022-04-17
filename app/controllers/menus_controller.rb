@@ -21,8 +21,11 @@ class MenusController < ApplicationController
   end
 
   def create
+    # many to many create
     categories = []
+    # di dalam form -> name="menu["categories"][]"
     categories_params = params.require(:menu).permit(categories: [])["categories"]
+    # categories_params == nil -> categories nya kosong
     if categories_params == nil
       categories = []
     else
@@ -30,7 +33,8 @@ class MenusController < ApplicationController
         categories.append(Category.find(category))
       end
     end
-      
+
+    # di dalam form -> name="menu["name"]", "menu["description"]", "menu["price"]"
     name = params.require(:menu).permit(:name)["name"]
     description = params.require(:menu).permit(:description)["description"]
     price = params.require(:menu).permit(:price)["price"]
@@ -50,7 +54,9 @@ class MenusController < ApplicationController
 
   def update
     categories = []
+    # di dalam form -> name="menu["categories"][]"
     categories_params = params.require(:menu).permit(categories: [])["categories"]
+    # categories_params == nil -> categories nya kosong
     if categories_params == nil
       categories = []
     else
@@ -58,7 +64,8 @@ class MenusController < ApplicationController
         categories.append(Category.find(category))
       end
     end
-      
+
+    # di dalam form -> name="menu["name"]", "menu["description"]", "menu["price"]"
     name = params.require(:menu).permit(:name)["name"]
     description = params.require(:menu).permit(:description)["description"]
     price = params.require(:menu).permit(:price)["price"]

@@ -1,0 +1,25 @@
+require 'rails_helper'
+
+RSpec.describe Order, type: :model do
+  it "is valid with a valid email format" do
+    order = Order.create(
+      customer_email:"rizky.royal@gmail.com", 
+      total_price: 1500.0, 
+      order_date: "01/01/2022", 
+      status: "PAID"
+    )
+
+    expect(order).to be_valid
+  end
+
+  it "is invalid with a invalid email format" do
+    order = Order.create(
+      customer_email:"halo@gigih", 
+      total_price: 1500.0, 
+      order_date: "01/01/2022", 
+      status: "PAID"
+    )
+
+    expect(order).not_to be_valid
+  end
+end
