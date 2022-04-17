@@ -1,0 +1,12 @@
+<div class="container">
+  <h1>New menu</h1>
+
+  <%= render "form", {menu: @menu, categories: @categories, menu_categories: nil} %>
+  
+  <br>
+  
+  <div>
+    <%= link_to "Back to menus", menus_path %>
+  </div>
+</div>
+

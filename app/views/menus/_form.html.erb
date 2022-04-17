@@ -1,0 +1,50 @@
+<%= form_with(model: menu) do |form| %>
+  <% if menu.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(menu.errors.count, "error") %> prohibited this menu from being saved:</h2>
+
+      <ul>
+        <% menu.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :price, style: "display: block" %>
+    <%= form.text_field :price %>
+  </div>
+
+  <div>
+    <%= form.label :description, style: "display: block" %>
+    <%= form.text_field :description %>
+  </div>
+      
+  <% arr = []%>
+  <% if menu_categories %>
+    <% menu_categories.categories.each do |category| %>
+      <% arr.append(category.name)%>
+    <% end %>
+  <% end %>
+  <br>
+  <% categories.each do |category| %>
+    <% if arr.include?(category.name) %>
+      <%= check_box_tag("menu[categories][]", category.id,{checked: true}) %>
+      <%= label_tag(category.name, category.name) %>
+    <% else %>
+      <%= check_box_tag("menu[categories][]", category.id) %>
+      <%= label_tag(category.name, category.name) %>
+    <% end %>
+  <% end %>
+  
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
