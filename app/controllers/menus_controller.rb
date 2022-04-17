@@ -1,6 +1,7 @@
 class MenusController < ApplicationController
   before_action :set_menu, only: %i[ show edit update destroy ]
   protect_from_forgery
+  
   def index
     @menus = Menu.includes([:categories])
   end

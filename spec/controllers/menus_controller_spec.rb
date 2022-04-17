@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe MenusController do
   describe 'GET #index' do
-    it 'populates an array of all foods' do
+    it 'populates an array of all menus' do
       menu = create(:menu)
       menu1 = create(:menu)
       get :index
@@ -16,7 +16,7 @@ RSpec.describe MenusController do
   end
 
   describe 'GET #show' do
-    it 'assigns the requested food to @menu' do
+    it 'assigns the requested menu to @menu' do
       menu = create(:menu)
       get :show, params: {id: menu}
       expect(assigns(:menu)).to eq menu

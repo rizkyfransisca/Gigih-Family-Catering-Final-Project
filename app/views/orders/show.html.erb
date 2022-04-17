@@ -1,2 +1,12 @@
-<h1>Orders#show</h1>
-<p>Find me in app/views/orders/show.html.erb</p>
+<div class="container">
+  <p style="color: green"><%= notice %></p>
+
+  <%= render @order %>
+  
+  <div>
+    <%= link_to "Edit this order", edit_order_path(@order) %> |
+    <%= link_to "Back to orders", orders_path %>
+  
+    <%= button_to "Destroy this order", @order, method: :delete %>
+  </div>
+</div>

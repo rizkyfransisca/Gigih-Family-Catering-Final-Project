@@ -1,0 +1,31 @@
+<div id="<%= dom_id order %>">
+  <p>
+    <strong>Customer Email:</strong>
+    <%= order.customer_email %>
+  </p>
+
+  <p>
+    <strong>Total Price:</strong>
+    <%= order.total_price %>
+  </p>
+
+  <p>
+    <strong>Order Date:</strong>
+    <%= order.order_date %>
+  </p>
+
+  <p>
+    <strong>Order Date:</strong>
+    <%= order.status %>
+  </p>
+
+  <p>
+    <strong>Menus:</strong>
+    <ul>
+      <% order.menus.each_with_index do |menu,index| %>
+        <li><%= "#{order.order_details[index].quantity} servings of #{menu.name} (price per menu: #{menu.price})" %></li>
+      <% end %>
+    </ul>
+  </p>
+
+</div>
