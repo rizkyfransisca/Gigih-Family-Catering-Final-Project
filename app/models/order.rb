@@ -4,4 +4,7 @@ class Order < ApplicationRecord
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :customer_email, presence: true, format: { with: VALID_EMAIL_REGEX }
+  
+  # rails validation assosiation
+  # validates :menus, presence: true
 end

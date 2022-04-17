@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Menu, type: :model do
-  it 'is valid with a name and a price' do
+  it 'is valid with a name, a price, categories' do
 
     category = Category.create(
       name: "category"
