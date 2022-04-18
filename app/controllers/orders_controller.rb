@@ -47,6 +47,25 @@ class OrdersController < ApplicationController
   end
 
   def update
+    # di dalam form -> name="order["customer_email"]", "order["order_date"]", "order["status"]"
+    customer_email = params.require(:order).permit(:customer_email)["customer_email"]
+    order_date = params.require(:order).permit(:order_date)["order_date"]
+    status = params.require(:order).permit(:status)["status"]
+    # di dalam form -> name="order["menus"][]"
+    order_menus_id = params.require(:order).permit(menus: [])["menus"]
+
+    # di dalam form -> name="order["quantities"][]"
+    menu_quantities = params.require(:order).permit(quantities: [])["quantities"]
+    
+    order_details = []
+    total_price = 0
+    menu_quantities.each_with_index do |quantity,index|
+      order_details.append(OrderDetail.create(menu_id: order_menus_id[index], quantity: quantity, menu_price: Menu.find(order_menus_id[index]).price))
+      total_price += order_details[index].menu_price * order_details[index].quantity
+    end
+    
+    @order.update(customer_email: customer_email, order_date: order_date, total_price: total_price, status: status, order_details: order_details)
+    redirect_to order_path(@order)
   end
 
   def destroy
