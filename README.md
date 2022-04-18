@@ -27,3 +27,7 @@ If you need help you might be able to find an answer on our [docs](https://docs.
 ## Note
 Here is the erd I made for this final project (Gigih Family Catering ERD):
 ![ERD Gigih Family Catering](erd_final_project.png "Text to show on mouseover")
+
+<br>
+
+To be able to display the portion textfield on the new page and edit on the order, we must first select the menu by clicking the checkbox, after clicking the checkbox, the portion textfield will appear under the clicked menu checkbox.
