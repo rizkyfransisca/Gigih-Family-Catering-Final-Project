@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root "orders#index"
   resources :menus
   get "/orders/daily-report", to: "orders#daily_report"
   resources :orders

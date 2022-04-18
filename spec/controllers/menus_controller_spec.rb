@@ -112,4 +112,28 @@ RSpec.describe MenusController do
       expect(response).to redirect_to menus_url
     end
   end
+
+  describe 'PATCH #update' do
+    before :each do
+      @menu = create(:menu)
+    end
+    
+    it "locates the requested @menu" do
+      patch :update, params: { id: @menu, menu: attributes_for(:menu) }
+      expect(assigns(:menu)).to eq @menu
+    end
+
+    it "changes @menu's attributes" do
+      new_category = [Category.create(name: "Dessert"), Category.create(name: "Appertaicer")]
+      patch :update, params: {id: @menu, menu: attributes_for(:menu, name: 'Nasi Padang', description: "The best menu from padang", price: 1000.0, categories: new_category)}
+      @menu.reload
+      expect([@menu.name, @menu.description, @menu.price, @menu.categories]).to eq(['Nasi Padang', "The best menu from padang", 1000.0, new_category])
+    end
+
+    it "redirects to the menu" do
+      patch :update, params: { id: @menu, menu: attributes_for(:menu) }
+      expect(response).to redirect_to @menu
+    end
+    
+  end
 end

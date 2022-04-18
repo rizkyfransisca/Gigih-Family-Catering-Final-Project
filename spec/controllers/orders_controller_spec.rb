@@ -181,4 +181,38 @@ RSpec.describe OrdersController do
       expect(response).to redirect_to orders_url
     end
   end
+
+  describe 'PATCH #update' do
+    before :each do
+      nasi_goreng = Menu.create(
+        name: "Nasi Goreng",
+        price: 5000.0,
+        categories: [Category.new(name: "Main Course")]
+      )
+      
+      @order = Order.create(
+        customer_email: "rizky.royal@gmail.com",
+        total_price: 10000.0,
+        order_date: "01/01/2022",
+        status: "NEW",
+        order_details: [OrderDetail.create(menu_id: nasi_goreng.id, quantity: 2, menu_price: nasi_goreng.price)])
+    end
+    
+    it "locates the requested @order" do
+      patch :update, params: { id: @order, order: attributes_for(:order) }
+      expect(assigns(:order)).to eq @order
+    end
+
+    it "changes @order's attributes" do
+      new_menus = Menu.create(name: "Nasi Kuning", price: 1000.0, description: "Nasi kuning terbaik", categories: [Category.create(name: "Main course")])
+      patch :update, params: {id: @order, order: attributes_for(:order, order_date: "2022-01-10", status: "PAID", customer_email: "sriratih@gmail.com", menus: [new_menus])}
+      @order.reload
+      expect([@order.order_date.to_s, @order.status, @order.customer_email, @order.menus]).to eq(["2022-01-10", "PAID","sriratih@gmail.com", [new_menus]])
+    end
+
+    it "redirects to the order" do
+      patch :update, params: { id: @order, order: attributes_for(:order) }
+      expect(response).to redirect_to @order
+    end
+  end
 end
