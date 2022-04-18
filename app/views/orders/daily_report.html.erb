@@ -1,8 +1,6 @@
 <div class="container">
   <p style="color: green"><%= notice %></p>
-  <h1>Orders</h1>
-
-  <a class="btn btn-primary my-3" href=<%="/orders/daily-report?todays_date=#{Date.today}"%>>Daily Report</a>
+  <h1>Orders on <%= params[:todays_date] %></h1>
 
   <div id="orders">
     <% @orders.each do |order| %>
@@ -14,7 +12,5 @@
     <% end %>
   </div>
   
-  <%= link_to "New order", new_order_path %>
-  <br>
-  <br>
+  <%= link_to "Back to orders", orders_path %>
 </div>

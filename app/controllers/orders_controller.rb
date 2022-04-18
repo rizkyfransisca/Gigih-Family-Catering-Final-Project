@@ -1,3 +1,4 @@
+require 'date'
 class OrdersController < ApplicationController
   before_action :set_menu, only: %i[ show edit update destroy ]
   protect_from_forgery
@@ -8,6 +9,10 @@ class OrdersController < ApplicationController
   end
 
   def show
+  end
+
+  def daily_report
+    @orders = Order.get_todays_orders(params[:todays_date])
   end
 
   def edit

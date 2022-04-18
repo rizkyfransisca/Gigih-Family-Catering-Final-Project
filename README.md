@@ -31,3 +31,12 @@ Here is the erd I made for this final project (Gigih Family Catering ERD):
 <br>
 
 To be able to display the portion textfield on the new page and edit on the order, we must first select the menu by clicking the checkbox, after clicking the checkbox, the portion textfield will appear under the clicked menu checkbox.
+
+<br>
+
+/orders -> to view and access all orders
+/menus -> to view and access all menus
+
+<br>
+
+**specifically to view, create, edit and delete categories must use rails console**

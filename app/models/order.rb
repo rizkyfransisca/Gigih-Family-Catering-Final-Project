@@ -7,4 +7,9 @@ class Order < ApplicationRecord
   
   # rails validation assosiation
   # validates :menus, presence: true
+
+  def self.get_todays_orders(todays_date)
+    # return where(order_date: date)
+    where(order_date: todays_date)
+  end
 end
