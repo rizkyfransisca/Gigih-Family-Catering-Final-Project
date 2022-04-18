@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe MenusController do
   describe 'GET #index' do
     it 'populates an array of all menus' do
-      menu = create(:menu)
+      menu = create(:menu, name: "Nasi Kuning")
       menu1 = create(:menu)
       get :index
       expect(assigns(:menus)).to match_array([menu, menu1])

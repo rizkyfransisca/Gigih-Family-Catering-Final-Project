@@ -109,7 +109,7 @@ RSpec.describe OrdersController do
     end
 
     it 'populates an array of all menus' do
-      menu = create(:menu)
+      menu = create(:menu, name: "Nasi Kuning")
       menu1 = create(:menu)
 
       order = Order.create(

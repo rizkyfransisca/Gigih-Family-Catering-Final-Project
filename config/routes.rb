@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :menus
   get "/orders/daily-report", to: "orders#daily_report"
   resources :orders
+  resources :categories
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
