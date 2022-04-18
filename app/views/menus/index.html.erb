@@ -2,6 +2,9 @@
   <p style="color: green"><%= notice %></p>
   <h1>Menus</h1>
 
+  <a class="btn btn-primary my-3" href="/">Orders</a>
+  <a class="btn btn-primary my-3" href="/categories">Categories</a>
+  
   <div id="menus">
     <% @menus.each do |menu| %>
       <%= render menu %>

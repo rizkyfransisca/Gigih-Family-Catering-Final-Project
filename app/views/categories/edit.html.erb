@@ -1,2 +1,13 @@
-<h1>Categories#edit</h1>
-<p>Find me in app/views/categories/edit.html.erb</p>
+<div class="container">
+  <h1>Editing category</h1>
+
+  <%= render "form", category: @category %>
+  
+  <br>
+  
+  <div>
+    <%= link_to "Show this category", @category %> |
+    <%= link_to "Back to categories", categories_path %>
+  </div>
+</div>
+
