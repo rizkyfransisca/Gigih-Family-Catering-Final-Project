@@ -1,2 +1,14 @@
-<h1>Orders#edit</h1>
-<p>Find me in app/views/orders/edit.html.erb</p>
+<div class="container">
+  <h1>Editing order</h1>
+
+  <%= render "form", {order: @order, menus: @menus, order_menus: @order_menus} %>
+  
+  <br>
+  
+  <div>
+    <%= link_to "Show this order", @order %> |
+    <%= link_to "Back to orders", orders_path %>
+  </div>
+</div>
+
+

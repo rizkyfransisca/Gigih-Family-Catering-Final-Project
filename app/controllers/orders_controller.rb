@@ -12,9 +12,6 @@ class OrdersController < ApplicationController
 
   def edit
     @menus = Menu.all
-    
-    # menus that has been ordered by a customer
-    @order_menus = Order.find(@order.id).menus
   end
 
   def new

@@ -108,7 +108,7 @@ RSpec.describe OrdersController do
       expect(assigns(:order)).to eq order
     end
 
-    it 'populates an array of all menus from an order' do
+    it 'populates an array of all menus' do
       menu = create(:menu)
       menu1 = create(:menu)
 
@@ -120,7 +120,7 @@ RSpec.describe OrdersController do
         order_details: [OrderDetail.create(menu_id: menu.id, quantity: 2, menu_price: menu.price),OrderDetail.create(menu_id: menu1.id, quantity: 2, menu_price: menu1.price)])
       
       get :edit, params: {id: order}
-      expect(assigns(:order_menus)).to match_array([menu, menu1])
+      expect(assigns(:menus)).to match_array([menu, menu1])
     end
 
     it 'renders the :edit template' do

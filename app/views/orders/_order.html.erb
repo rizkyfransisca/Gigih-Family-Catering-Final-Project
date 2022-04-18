@@ -23,7 +23,7 @@
     <strong>Menus:</strong>
     <ul>
       <% order.menus.each_with_index do |menu,index| %>
-        <li><%= "#{order.order_details[index].quantity} servings of #{menu.name} (price per menu: #{menu.price})" %></li>
+        <li><%= "#{menu.name} (price per menu: #{menu.price}) | (portions/quantity: #{order.order_details[index].quantity})" %></li>
       <% end %>
     </ul>
   </p>
