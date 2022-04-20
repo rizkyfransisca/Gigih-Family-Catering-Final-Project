@@ -35,6 +35,9 @@ To be able to display the portion textfield on the new page and edit on the orde
 <br>
 
 /orders -> to view and access all orders
+
 / -> to view and access all orders too
+
 /menus -> to view and access all menus
+
 /categories -> to view and access all categories
