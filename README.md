@@ -41,3 +41,5 @@ To be able to display the portion textfield on the new page and edit on the orde
 /menus -> to view and access all menus
 
 /categories -> to view and access all categories
+
+**If you want to reset the orders filter or back with no filters in orders, you must click the Reset Filter button below the drop down**

@@ -5,7 +5,18 @@ class OrdersController < ApplicationController
   
   def index
     # @orders = Order.includes([:order_details])
-    @orders = Order.all
+    if not(params[:customer_email].nil?)
+      @orders = Order.filter_by_customer_email(params[:customer_email])
+      @notice = "Filter by Customer Email = #{params[:customer_email]}"
+    elsif not(params[:total_price].nil?)
+      @orders = Order.filter_by_equal_to_total_price(params[:total_price])
+      @notice = "Filter by Total Price = #{params[:total_price]}"
+    elsif not(params[:start_date].nil?) && not(params[:end_date].nil?)
+      @orders = Order.filter_by_date_range(params[:start_date], params[:end_date])
+      @notice = "Filter by Date in Range of #{params[:start_date]} - #{params[:end_date]}"
+    else
+      @orders = Order.all
+    end
   end
 
   def show

@@ -62,18 +62,117 @@ RSpec.describe Order, type: :model do
     end
   end
 
-  # it "is invalid without categories" do
-  #   order = Order.create(
-  #     customer_email:"rizky.royal@gmail.com", 
-  #     total_price: 1500.0, 
-  #     order_date: "01/01/2022", 
-  #     status: "PAID",
-  #   )
+  describe 'self#filter_by_customer_email' do
+    it 'should return an array of results with the corresponding email' do
+      nasi_uduk = Menu.create(
+        name: "Nasi Uduk",
+        price: 5000.0,
+        categories: [Category.new(name: "Main Course")]
+      )
 
-  #   order.valid?
+      customer_email = "rizky.royal@gmail.com"
 
-  #   print order.errors[:order_details]
-    
-  #   expect(order.errors[:menus]).to include("can't be blank")
-  # end
+      order1 = Order.create(
+        customer_email: customer_email,
+        total_price: 10000.0,
+        order_date: "01/01/2022",
+        status: "NEW",
+        order_details: [OrderDetail.create(menu_id: nasi_uduk.id, quantity: 2, menu_price: nasi_uduk.price)])
+
+      order2 = Order.create(
+        customer_email: "rizky.baru@gmail.com",
+        total_price: 10000.0,
+        order_date: "01/01/2022",
+        status: "NEW",
+        order_details: [OrderDetail.create(menu_id: nasi_uduk.id, quantity: 2, menu_price: nasi_uduk.price)])
+      
+      order3 = Order.create(
+        customer_email: customer_email,
+        total_price: 10000.0,
+        order_date: "01/01/2022",
+        status: "NEW",
+        order_details: [OrderDetail.create(menu_id: nasi_uduk.id, quantity: 2, menu_price: nasi_uduk.price)])
+
+      expect(Order.filter_by_customer_email(customer_email)).to eq([order1, order3])
+    end
+  end
+
+  describe 'self#filter_by_equal_to_total_price' do
+    it 'should return an array of results with the corresponding total price' do
+      nasi_uduk = Menu.create(
+        name: "Nasi Uduk",
+        price: 5000.0,
+        categories: [Category.new(name: "Main Course")]
+      )
+
+      total_price = 15000.0
+
+      order1 = Order.create(
+        customer_email: "rizky.royal@gmail.com",
+        total_price: 10000.0,
+        order_date: "01/01/2022",
+        status: "NEW",
+        order_details: [OrderDetail.create(menu_id: nasi_uduk.id, quantity: 2, menu_price: nasi_uduk.price)])
+
+      order2 = Order.create(
+        customer_email: "rizky.baru@gmail.com",
+        total_price: 15000.0,
+        order_date: "01/01/2022",
+        status: "NEW",
+        order_details: [OrderDetail.create(menu_id: nasi_uduk.id, quantity: 2, menu_price: nasi_uduk.price)])
+      
+      order3 = Order.create(
+        customer_email: "rizky.royal@gmail.com",
+        total_price: 10000.0,
+        order_date: "01/01/2022",
+        status: "NEW",
+        order_details: [OrderDetail.create(menu_id: nasi_uduk.id, quantity: 2, menu_price: nasi_uduk.price)])
+
+      expect(Order.filter_by_equal_to_total_price(total_price)).to eq([order2])
+    end
+  end
+
+  describe 'self#filter_by_date_range' do
+    it 'should return an array of results with the corresponding date range' do
+      nasi_uduk = Menu.create(
+        name: "Nasi Uduk",
+        price: 5000.0,
+        categories: [Category.new(name: "Main Course")]
+      )
+
+      start_date = "18/04/2022"
+      end_date = "20/04/2022"
+
+      order1 = Order.create(
+        customer_email: "rizky.royal@gmail.com",
+        total_price: 10000.0,
+        order_date: "18/04/2022",
+        status: "NEW",
+        order_details: [OrderDetail.create(menu_id: nasi_uduk.id, quantity: 2, menu_price: nasi_uduk.price)])
+
+      order2 = Order.create(
+        customer_email: "rizky.baru@gmail.com",
+        total_price: 15000.0,
+        order_date: "20/04/2022",
+        status: "NEW",
+        order_details: [OrderDetail.create(menu_id: nasi_uduk.id, quantity: 2, menu_price: nasi_uduk.price)])
+      
+      order3 = Order.create(
+        customer_email: "rizky.royal@gmail.com",
+        total_price: 10000.0,
+        order_date: "01/01/2022",
+        status: "NEW",
+        order_details: [OrderDetail.create(menu_id: nasi_uduk.id, quantity: 2, menu_price: nasi_uduk.price)])
+      
+      order4 = Order.create(
+        customer_email: "rizky.royal@gmail.com",
+        total_price: 10000.0,
+        order_date: "19/04/2022",
+        status: "NEW",
+        order_details: [OrderDetail.create(menu_id: nasi_uduk.id, quantity: 2, menu_price: nasi_uduk.price)])
+
+      expect(Order.filter_by_date_range(start_date, end_date)).to eq([order1, order2, order4])
+    end
+  end
+  
 end

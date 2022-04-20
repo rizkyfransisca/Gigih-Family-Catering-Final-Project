@@ -1,13 +1,25 @@
 <div class="container">
-  <p style="color: green"><%= notice %></p>
+  <p style="color: green" class="mt-4"><%= notice %></p>
   <h1>Orders</h1>
 
   <a class="btn btn-primary my-3" href=<%="/orders/daily-report?todays_date=#{Date.today}"%>>Daily Report</a>
   <a class="btn btn-primary my-3" href="/categories">Categories</a>
   <a class="btn btn-primary my-3" href="/menus">Menus</a>
-    
 
-  <div id="orders">
+  <h3>Filter Orders:</h3>
+  <select name="filters" id="filters" onchange="chooseFilters()" style="display:block;">
+    <option value="choose_filter">Choose Filter</option>
+    <option value="customer_email">Filter by Customer Email</option>
+    <option value="equal_to_total_price">Filter by Total Price (equal to)</option>
+    <option value="date_range">Filter by Date Range</option>
+  </select>
+
+  <form action="/orders" method="get" id="form-filters" style="margin-top: 15px;" >
+  </form>
+
+  <p style="color: green; font-weight: bold;" class="mt-4"><%= @notice %></p>
+  
+  <div id="orders" class="mt-4">
     <% @orders.each do |order| %>
       <%= render order %>
       <p>
@@ -21,3 +33,87 @@
   <br>
   <br>
 </div>
+    
+<script>
+function generateInput(name, id, type){
+  let input = document.createElement("input")
+  input.type = type
+  input.id = id
+  input.name = name
+  return input
+}
+
+function generateLabel(name, id, text){
+  let label = document.createElement("label")
+  label.innerHTML  = text
+  label.id = id
+  label.name = name
+  return label
+}
+
+document.addEventListener("DOMContentLoaded", function(event) {
+    chooseFilters()
+});
+
+function resetFormFiltersElements(form_filters){
+  while (form_filters.firstChild) {
+    form_filters.removeChild(form_filters.lastChild);
+  }
+}
+
+
+
+function chooseFilters() {
+  var select = document.getElementById('filters');
+  var value = select.options[select.selectedIndex].value;
+
+  let form_filters = document.getElementById("form-filters")
+  if(value == "customer_email"){
+    let input = generateInput("customer_email", "customer_email", "text")
+    let label = generateLabel("customer_email", "customer_email", "Customer Email: ")
+
+    resetFormFiltersElements(form_filters)
+
+    form_filters.append(label)
+    form_filters.append(input)
+  }else if(value == "date_range"){
+    let start_date = generateInput("start_date", "start_date", "text")
+    let start_date_label = generateLabel("start_date", "start_date", "Start Date: ")
+    let end_date = generateInput("end_date", "end_date", "text")
+    let end_date_label = generateLabel("end_date", "end_date", "End Date: ")
+
+    resetFormFiltersElements(form_filters)
+    start_date.placeholder = "yyyy-mm-dd"
+    end_date.placeholder = "yyyy-mm-dd"
+
+    form_filters.append(start_date_label)
+    form_filters.append(start_date)
+    form_filters.append(end_date_label)
+    form_filters.append(end_date)
+  }else if(value == "equal_to_total_price"){
+    let input = generateInput("total_price", "total_price", "text")
+    let label = generateLabel("total_price", "total_price", "Total Price: ")
+    
+    resetFormFiltersElements(form_filters)
+    
+    form_filters.append(label)
+    form_filters.append(input)
+  }
+
+  if(value != "choose_filter"){
+    let submitButton = document.createElement("button")
+    submitButton.innerHTML = "Filter"
+    form_filters.append(submitButton)
+  }
+    
+  let resetFilterButton = document.createElement("a")
+  resetFilterButton.innerHTML = "Reset Filter"
+  resetFilterButton.href = "/orders"
+  resetFilterButton.classList.add("btn")
+  resetFilterButton.classList.add("btn-warning")
+  resetFilterButton.classList.add("d-block")
+  resetFilterButton.style.width = "150px"
+  form_filters.append(resetFilterButton)
+}
+
+</script>
