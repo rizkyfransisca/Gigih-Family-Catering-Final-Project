@@ -2,25 +2,138 @@ require 'rails_helper'
 
 RSpec.describe OrdersController do
   describe 'GET #index' do
-    it 'populates an array of all orders' do
-      menu = Menu.create(
-        name: "Nasi Uduk",
-        price: 5000.0,
-        categories: [Category.new(name: "Main Course")]
-      )
-      order1 = Order.create(
-        customer_email: "rizky.royal@gmail.com",
-        total_price: 10000.0,
-        order_date: "01/01/2022",
-        status: "NEW",
-        order_details: [OrderDetail.create(menu_id: menu.id, quantity: 2, menu_price: menu.price)])
-      get :index
-      expect(assigns(:orders)).to match_array([order1])
+    context "without params" do
+      it 'populates an array of all orders' do
+        menu = Menu.create(
+          name: "Nasi Uduk",
+          price: 5000.0,
+          categories: [Category.new(name: "Main Course")]
+        )
+        order1 = Order.create(
+          customer_email: "rizky.royal@gmail.com",
+          total_price: 10000.0,
+          order_date: "01/01/2022",
+          status: "NEW",
+          order_details: [OrderDetail.create(menu_id: menu.id, quantity: 2, menu_price: menu.price)])
+        get :index
+        expect(assigns(:orders)).to match_array([order1])
+      end
+  
+      it 'renders the :index template' do
+        get :index
+        expect(response).to render_template :index
+      end
     end
 
-    it 'renders the :index template' do
-      get :index
-      expect(response).to render_template :index
+    context "with params[:customer_email]" do
+      it 'populates an array of all orders with desired email' do
+        menu = Menu.create(
+          name: "Nasi Uduk",
+          price: 5000.0,
+          categories: [Category.new(name: "Main Course")]
+        )
+        order1 = Order.create(
+          customer_email: "rizky.royal@gmail.com",
+          total_price: 10000.0,
+          order_date: "01/01/2022",
+          status: "NEW",
+          order_details: [OrderDetail.create(menu_id: menu.id, quantity: 2, menu_price: menu.price)])
+        
+        order2 = Order.create(
+          customer_email: "ratih@gmail.com",
+          total_price: 10000.0,
+          order_date: "01/01/2022",
+          status: "NEW",
+          order_details: [OrderDetail.create(menu_id: menu.id, quantity: 2, menu_price: menu.price)])
+
+        order3 = Order.create(
+          customer_email: "ratih@gmail.com",
+          total_price: 10000.0,
+          order_date: "01/01/2022",
+          status: "NEW",
+          order_details: [OrderDetail.create(menu_id: menu.id, quantity: 2, menu_price: menu.price)])
+        get :index, params: { customer_email: 'ratih@gmail.com' }
+        expect(assigns(:orders)).to match_array([order2, order3])
+      end
+  
+      it 'renders the :index template' do
+        get :index, params: { customer_email: 'ratih@gmail.com' }
+        expect(response).to render_template :index
+      end
+    end
+
+    context "with params[:total_price]" do
+      it 'populates an array of all orders with the desired total price' do
+        menu = Menu.create(
+          name: "Nasi Uduk",
+          price: 5000.0,
+          categories: [Category.new(name: "Main Course")]
+        )
+        order1 = Order.create(
+          customer_email: "rizky.royal@gmail.com",
+          total_price: 15000.0,
+          order_date: "01/01/2022",
+          status: "NEW",
+          order_details: [OrderDetail.create(menu_id: menu.id, quantity: 3, menu_price: menu.price)])
+        
+        order2 = Order.create(
+          customer_email: "ratih@gmail.com",
+          total_price: 20000.0,
+          order_date: "01/01/2022",
+          status: "NEW",
+          order_details: [OrderDetail.create(menu_id: menu.id, quantity: 4, menu_price: menu.price)])
+
+        order3 = Order.create(
+          customer_email: "ratih@gmail.com",
+          total_price: 15000.0,
+          order_date: "01/01/2022",
+          status: "NEW",
+          order_details: [OrderDetail.create(menu_id: menu.id, quantity: 3, menu_price: menu.price)])
+        get :index, params: { total_price: 15000.0 }
+        expect(assigns(:orders)).to match_array([order1, order3])
+      end
+  
+      it 'renders the :index template' do
+        get :index, params: { total_price: 15000.0 }
+        expect(response).to render_template :index
+      end
+    end
+
+    context "with params[:start_date] and params[:end_date]" do
+      it 'populates an array of all orders with the desired date range' do
+        menu = Menu.create(
+          name: "Nasi Uduk",
+          price: 5000.0,
+          categories: [Category.new(name: "Main Course")]
+        )
+        order1 = Order.create(
+          customer_email: "rizky.royal@gmail.com",
+          total_price: 15000.0,
+          order_date: "18/04/2022",
+          status: "NEW",
+          order_details: [OrderDetail.create(menu_id: menu.id, quantity: 3, menu_price: menu.price)])
+        
+        order2 = Order.create(
+          customer_email: "ratih@gmail.com",
+          total_price: 20000.0,
+          order_date: "21/04/2022",
+          status: "NEW",
+          order_details: [OrderDetail.create(menu_id: menu.id, quantity: 4, menu_price: menu.price)])
+
+        order3 = Order.create(
+          customer_email: "ratih@gmail.com",
+          total_price: 15000.0,
+          order_date: "25/04/2022",
+          status: "NEW",
+          order_details: [OrderDetail.create(menu_id: menu.id, quantity: 3, menu_price: menu.price)])
+        get :index, params: { start_date: "20/04/2022",  end_date: "25/04/2022" }
+        expect(assigns(:orders)).to match_array([order2, order3])
+      end
+  
+      it 'renders the :index template' do
+        get :index, params: { start_date: "20/04/2022",  end_date: "25/04/2022" }
+        expect(response).to render_template :index
+      end
     end
   end
 

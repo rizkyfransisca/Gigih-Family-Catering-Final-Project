@@ -102,6 +102,19 @@ RSpec.describe CategoriesController do
         expect(response).to redirect_to @category
       end
     end
+
+    context "with invalid attributes" do
+      it "does not save the updated category in the database" do
+        patch :update, params: { id: @category, category: {name: nil} }
+        expect(@category.name).not_to eq(nil)
+      end
+    
+      it "re-renders the edit template" do
+        patch :update, params: { id: @category, category: {name: nil} }
+        expect(assigns(:category)).to eq @category
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
   end
 
   describe "DELETE #destroy" do
