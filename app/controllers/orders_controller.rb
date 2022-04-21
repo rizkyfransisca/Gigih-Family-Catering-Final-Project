@@ -8,7 +8,16 @@ class OrdersController < ApplicationController
     if not(params[:customer_email].nil?)
       @orders = Order.filter_by_customer_email(params[:customer_email])
       @notice = "Filter by Customer Email = #{params[:customer_email]}"
-    elsif not(params[:total_price].nil?)
+    elsif not(params[:operator].nil?) && not(params[:total_price].nil?)
+      puts "masuk"
+      if params[:operator] == "greater_than"
+        @orders = Order.filter_by_greater_than_entered_total_price(params[:total_price])
+        @notice = "Filter by Total Price > #{params[:total_price]}"
+      elsif params[:operator] == "lower_than"
+        @orders = Order.filter_by_lower_than_entered_total_price(params[:total_price])
+        @notice = "Filter by Total Price < #{params[:total_price]}"
+      end
+    elsif not(params[:total_price].nil?) 
       @orders = Order.filter_by_equal_to_total_price(params[:total_price])
       @notice = "Filter by Total Price = #{params[:total_price]}"
     elsif not(params[:start_date].nil?) && not(params[:end_date].nil?)

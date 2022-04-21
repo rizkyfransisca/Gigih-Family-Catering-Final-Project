@@ -99,6 +99,80 @@ RSpec.describe OrdersController do
       end
     end
 
+    context "with params[:operator] == greater_than and params[:total_price]" do
+      it 'populates an array of all orders with the total price greater params[:total_price] (entered total price)' do
+        menu = Menu.create(
+          name: "Nasi Uduk",
+          price: 5000.0,
+          categories: [Category.new(name: "Main Course")]
+        )
+        order1 = Order.create(
+          customer_email: "rizky.royal@gmail.com",
+          total_price: 15000.0,
+          order_date: "18/04/2022",
+          status: "NEW",
+          order_details: [OrderDetail.create(menu_id: menu.id, quantity: 3, menu_price: menu.price)])
+        
+        order2 = Order.create(
+          customer_email: "ratih@gmail.com",
+          total_price: 10000.0,
+          order_date: "21/04/2022",
+          status: "NEW",
+          order_details: [OrderDetail.create(menu_id: menu.id, quantity: 2, menu_price: menu.price)])
+
+        order3 = Order.create(
+          customer_email: "ratih@gmail.com",
+          total_price: 10000.0,
+          order_date: "25/04/2022",
+          status: "NEW",
+          order_details: [OrderDetail.create(menu_id: menu.id, quantity: 2, menu_price: menu.price)])
+        get :index, params: { operator: "greater_than",  total_price: 14000.0 }
+        expect(assigns(:orders)).to match_array([order1])
+      end
+  
+      it 'renders the :index template' do
+        get :index, params: { operator: "greater_than",  total_price: 14000.0 }
+        expect(response).to render_template :index
+      end
+    end
+
+    context "with params[:operator] == lower_than and params[:total_price]" do
+      it 'populates an array of all orders with the total price lower params[:total_price] (entered total price)' do
+        menu = Menu.create(
+          name: "Nasi Uduk",
+          price: 5000.0,
+          categories: [Category.new(name: "Main Course")]
+        )
+        order1 = Order.create(
+          customer_email: "rizky.royal@gmail.com",
+          total_price: 15000.0,
+          order_date: "18/04/2022",
+          status: "NEW",
+          order_details: [OrderDetail.create(menu_id: menu.id, quantity: 3, menu_price: menu.price)])
+        
+        order2 = Order.create(
+          customer_email: "ratih@gmail.com",
+          total_price: 10000.0,
+          order_date: "21/04/2022",
+          status: "NEW",
+          order_details: [OrderDetail.create(menu_id: menu.id, quantity: 2, menu_price: menu.price)])
+
+        order3 = Order.create(
+          customer_email: "ratih@gmail.com",
+          total_price: 10000.0,
+          order_date: "25/04/2022",
+          status: "NEW",
+          order_details: [OrderDetail.create(menu_id: menu.id, quantity: 2, menu_price: menu.price)])
+        get :index, params: { operator: "lower_than",  total_price: 14000.0 }
+        expect(assigns(:orders)).to match_array([order2, order3])
+      end
+  
+      it 'renders the :index template' do
+        get :index, params: { operator: "lower_than",  total_price: 14000.0 }
+        expect(response).to render_template :index
+      end
+    end
+
     context "with params[:start_date] and params[:end_date]" do
       it 'populates an array of all orders with the desired date range' do
         menu = Menu.create(

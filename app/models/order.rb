@@ -25,4 +25,12 @@ class Order < ApplicationRecord
   def self.filter_by_date_range(start_date, end_date)
     where(order_date: start_date..end_date)
   end
+
+  def self.filter_by_greater_than_entered_total_price(entered_total_price)
+    where('total_price > ?', entered_total_price )
+  end
+
+  def self.filter_by_lower_than_entered_total_price(entered_total_price)
+    where('total_price < ?', entered_total_price )
+  end
 end

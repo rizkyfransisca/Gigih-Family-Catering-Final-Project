@@ -11,6 +11,8 @@
     <option value="choose_filter">Choose Filter</option>
     <option value="customer_email">Filter by Customer Email</option>
     <option value="equal_to_total_price">Filter by Total Price (equal to)</option>
+    <option value="greater_than_to_total_price">Filter by Greater Than Entered Total Price</option>
+    <option value="lower_than_to_total_price">Filter by Lower Than Entered Total Price</option>
     <option value="date_range">Filter by Date Range</option>
   </select>
 
@@ -98,6 +100,28 @@ function chooseFilters() {
     
     form_filters.append(label)
     form_filters.append(input)
+  }else if(value == "greater_than_to_total_price"){
+    let inputTotalPrice = generateInput("total_price", "total_price", "text")
+    let labelTotalPrice = generateLabel("total_price", "total_price", "Total Price: ")
+    let hiddenInputOperator = generateInput("operator", "operator", "hidden")
+
+    resetFormFiltersElements(form_filters)
+
+    hiddenInputOperator.value = "greater_than"
+    form_filters.append(labelTotalPrice)
+    form_filters.append(inputTotalPrice)
+    form_filters.append(hiddenInputOperator)
+  }else if(value == "lower_than_to_total_price"){
+    let inputTotalPrice = generateInput("total_price", "total_price", "text")
+    let labelTotalPrice = generateLabel("total_price", "total_price", "Total Price: ")
+    let hiddenInputOperator = generateInput("operator", "operator", "hidden")
+
+    resetFormFiltersElements(form_filters)
+
+    hiddenInputOperator.value = "lower_than"
+    form_filters.append(labelTotalPrice)
+    form_filters.append(inputTotalPrice)
+    form_filters.append(hiddenInputOperator)
   }
 
   if(value != "choose_filter"){
