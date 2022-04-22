@@ -55,12 +55,8 @@ class OrdersController < ApplicationController
     # di dalam form -> name="order["quantities"][]"
     menu_quantities = params.require(:order).permit(quantities: [])["quantities"]
     
-    order_details = []
-    total_price = 0
-    menu_quantities.each_with_index do |quantity,index|
-      order_details.append(OrderDetail.create(menu_id: order_menus_id[index], quantity: quantity, menu_price: Menu.find(order_menus_id[index]).price))
-      total_price += order_details[index].menu_price * order_details[index].quantity
-    end
+    order_details = populate_order_details(menu_quantities, order_menus_id)
+    total_price = Order.calculate_total_price(order_details)
     
     @order = Order.new(customer_email: customer_email, order_date: order_date, total_price: total_price, status: status, order_details: order_details)
     @order.save
@@ -82,12 +78,8 @@ class OrdersController < ApplicationController
     # di dalam form -> name="order["quantities"][]"
     menu_quantities = params.require(:order).permit(quantities: [])["quantities"]
     
-    order_details = []
-    total_price = 0
-    menu_quantities.each_with_index do |quantity,index|
-      order_details.append(OrderDetail.create(menu_id: order_menus_id[index], quantity: quantity, menu_price: Menu.find(order_menus_id[index]).price))
-      total_price += order_details[index].menu_price * order_details[index].quantity
-    end
+    order_details = populate_order_details(menu_quantities, order_menus_id)
+    total_price = Order.calculate_total_price(order_details)
     
     @order.update(customer_email: customer_email, order_date: order_date, total_price: total_price, status: status, order_details: order_details)
     redirect_to order_path(@order)
@@ -106,5 +98,13 @@ class OrdersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_menu
       @order = Order.find(params[:id])
+    end
+
+    def populate_order_details(menu_quantities, order_menus_id)
+      order_details = []
+      menu_quantities.each_with_index do |quantity,index|
+        order_details.append(OrderDetail.create(menu_id: order_menus_id[index], quantity: quantity, menu_price: Menu.find(order_menus_id[index]).price))
+      end
+      return order_details
     end
 end

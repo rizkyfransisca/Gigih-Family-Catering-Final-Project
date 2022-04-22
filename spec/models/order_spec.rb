@@ -258,5 +258,31 @@ RSpec.describe Order, type: :model do
       expect(Order.filter_by_lower_than_entered_total_price(entered_total_price)).to eq([order1, order3])
     end
   end
+
+  describe 'self#calculate_total_price' do
+    it 'should return a correct total price from an order' do
+      nasi_uduk = Menu.create(
+        name: "Nasi Uduk",
+        price: 5000.0,
+        categories: [Category.new(name: "Main Course")]
+      )
+
+      nasi_kuning = Menu.create(
+        name: "Nasi Kuning",
+        price: 10000.0,
+        categories: [Category.new(name: "Main Course")]
+      )
+      
+      order = Order.create(
+        customer_email: "rizky.royal@gmail.com",
+        total_price: 10000.0,
+        order_date: "18/04/2022",
+        status: "NEW",
+        order_details: [OrderDetail.create(menu_id: nasi_uduk.id, quantity: 3, menu_price: nasi_uduk.price), OrderDetail.create(menu_id: nasi_kuning.id, quantity: 2, menu_price: nasi_kuning.price)]
+      )
+
+      expect(Order.calculate_total_price(order.order_details)).to eq(35000.0)
+    end
+  end
   
 end

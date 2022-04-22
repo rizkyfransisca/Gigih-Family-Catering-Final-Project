@@ -33,4 +33,12 @@ class Order < ApplicationRecord
   def self.filter_by_lower_than_entered_total_price(entered_total_price)
     where('total_price < ?', entered_total_price )
   end
+
+  def self.calculate_total_price(order_details)
+    total_price = 0
+    order_details.each do |order_detail,index|
+      total_price = total_price + (order_detail.quantity * order_detail.menu_price)
+    end
+    return total_price
+  end
 end
